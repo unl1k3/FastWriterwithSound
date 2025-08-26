@@ -193,7 +193,6 @@ impl AudioSystem {
 fn main() {
     let sound_file_path = "./soundtrack/eg-crystal-purple/sound.ogg";
     let config_content = "./soundtrack/eg-crystal-purple/config.json";
-
     //********
     println!("📂 Loading Json config");
 
@@ -592,14 +591,21 @@ fn callback(
             if keys.insert(key) {
                 // prima volta che questo tasto viene premuto
                 if let Some(name) = &event.name {
-                    println!("Tasto premuto: {}", name);
+                    println!("Tasto premuto: {} {:?}", name, key);
                 }
                 let key_str = format!("{:?}", key);
-                if let Some(vec_ref) = key_mappings.get(&key_str) {
-                    // `vec_ref` è un riferimento: &Vec<(f64, f64)>
-                    //  println!("Trovato: {:?}", vec_ref[0].0);
+                //let mut key_to_use = key_str.clone();
+                let default_key = "Backslash".to_string(); // la chiave di fallback
+
+                let lookup_key = if key_mappings.contains_key(&key_str) {
+                    &key_str
+                } else {
+                    &default_key
+                };
+
+                if let Some(vec_ref) = key_mappings.get(lookup_key) {
                     audio_system.play_sound_segment(
-                        &key_str,
+                        lookup_key,
                         vec_ref[0].0 as f32,
                         vec_ref[0].1 as f32,
                         true,
@@ -607,9 +613,8 @@ fn callback(
                         channels,
                         sample_rate,
                     );
-                } else {
-                    println!("Chiave non trovata: {}", key_str);
                 }
+
                 //println!("Samples:{:?}", samples);
             }
         }
@@ -620,20 +625,24 @@ fn callback(
                     println!("Tasto rilasciato: {}", name);
                 }
                 let key_str = format!("{:?}", key);
-                if let Some(vec_ref) = key_mappings.get(&key_str) {
-                    // `vec_ref` è un riferimento: &Vec<(f64, f64)>
-                    // println!("Trovato: {:?}", vec_ref);
+                let default_key = "Backslash".to_string(); // la chiave di fallback
+
+                let lookup_key = if key_mappings.contains_key(&key_str) {
+                    &key_str
+                } else {
+                    &default_key
+                };
+
+                if let Some(vec_ref) = key_mappings.get(lookup_key) {
                     audio_system.play_sound_segment(
-                        &key_str,
-                        vec_ref[1].0 as f32,
-                        vec_ref[1].1 as f32,
-                        false,
+                        lookup_key,
+                        vec_ref[0].0 as f32,
+                        vec_ref[0].1 as f32,
+                        true,
                         &samples,
                         channels,
                         sample_rate,
                     );
-                } else {
-                    println!("Chiave non trovata: {}", key_str);
                 }
             }
         }
