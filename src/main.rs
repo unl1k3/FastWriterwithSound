@@ -638,7 +638,7 @@ fn callback(
                         lookup_key,
                         vec_ref[0].0 as f32,
                         vec_ref[0].1 as f32,
-                        true,
+                        false,
                         &samples,
                         channels,
                         sample_rate,
