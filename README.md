@@ -3,3 +3,7 @@ Users can assign any audio file to a specific key, enabling a personalized typin
 Ideal for those who want to add a tactile audio dimension to their typing, without the need for a physical mechanical keyboard.
 This application is a simplified version of [Mechvibes DX](https://github.com/hainguyents13/mechvibes-dx) created by Hải Nguyễn.
 
+# License
+
+This project is licensed under the MIT License.
+
