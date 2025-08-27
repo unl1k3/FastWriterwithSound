@@ -16,18 +16,17 @@ This application is a simplified version of [Mechvibes DX](https://github.com/ha
    git clone git@github.com:unl1k3/FastWriterwithSound.git
    cd FastWriterwithSound
 
-3. **Build the Project
+3. **Build the Project**
    Compile the application using Cargo:
    ```bash
    cargo build --release
 
-4.	**Run the Application
+4. **Run the Application**
 You can run the program directly with Cargo:
     ```bash
-    cargo run
-Or run the compiled executable from the release folder:
-  ```bash
-    ./target/release/keylogger-sound
+    cargo run --release
+
+
 # License
 
 This project is licensed under the MIT License.
