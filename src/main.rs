@@ -137,25 +137,6 @@ impl AudioSystem {
             );
             return;
         }
-        //println!("inizio suono:{:?}", samples);
-
-        /*let freq_left = 440.0;
-        let freq_right = 880.0;
-        let channels = 2;
-        let sample_rate = 44100;
-        let duration_secs = 0.5;
-
-        let total_frames = (sample_rate as f32 * duration_secs) as usize;
-
-        let mut segment_samples = Vec::with_capacity(total_frames * channels as usize);
-        for n in 0..total_frames {
-            let t = n as f32 / sample_rate as f32;
-            // Esempi sinusoidi
-            let l = (2.0 * std::f32::consts::PI * freq_left * t).sin();
-            let r = (2.0 * std::f32::consts::PI * freq_right * t).sin();
-            segment_samples.push(l);
-            segment_samples.push(r);
-        }*/
 
         let segment_samples = samples[start_sample..end_sample].to_vec();
 
@@ -168,40 +149,46 @@ impl AudioSystem {
         sink.append(segment);
 
         sink.detach();
-
-        //sink.sleep_until_end();
-        // eprintln!("fine suono");
-        /*
-        if let Ok(sink) = Sink::try_new(&stream_handle) {
-            sink.set_volume(1.0f32);
-            sink.append(segment);
-
-
-            let mut key_sinks = self.key_sinks.lock().unwrap();
-            self.manage_active_sinks(&mut key_sinks);
-            key_sinks.insert(
-                format!("{}-{}", key, if is_keydown { "down" } else { "up" }),
-                sink
-            );
-
-        }
-
-        */
     }
+}
+#[derive(Deserialize)]
+struct AppConfig {
+    sound_file: String,
+    config_file: String,
 }
 
 fn main() {
-    let sound_file_path = "./soundtrack/eg-crystal-purple/sound.ogg";
-    let config_content = "./soundtrack/eg-crystal-purple/config.json";
+    // Load config.toml
+    let config_str = fs::read_to_string("config.toml")
+        .unwrap_or_else(|err| panic!("Error: could not read 'config.toml': {:?}", err));
+
+    // Parse TOML
+    let config: AppConfig = toml::from_str(&config_str)
+        .unwrap_or_else(|err| panic!("Error: invalid config.toml format: {:?}", err));
+
+    // Check if sound file exists
+    if !std::path::Path::new(&config.sound_file).exists() {
+        panic!("Error: sound file not found: {}", config.sound_file);
+    }
+
+    // Check if JSON config exists
+    if !std::path::Path::new(&config.config_file).exists() {
+        panic!("Error: JSON config file not found: {}", config.config_file);
+    }
+
+    println!("✅ Configuration loaded successfully!");
+    println!("✅ Sound file: {}", config.sound_file);
+    println!("✅ Config file: {}", config.config_file);
+
     //********
     println!("📂 Loading Json config");
 
     // Leggi il file JSON
-    let config_content = match fs::read_to_string(config_content) {
+    let config_content = match fs::read_to_string(&config.config_file) {
         Ok(content) => content,
         Err(e) => {
             //println!("Errore nella lettura del file: {}", e);
-            panic!("Errore nella lettura del file: {}", e);
+            panic!("Error read file: {}", e);
         }
     };
     println!("📂 Loading keyboard soundpack ");
@@ -211,7 +198,7 @@ fn main() {
         Ok(pack) => pack,
         Err(e) => {
             //println!("Errore nel parsing JSON: {}", e);
-            panic!("Errore nel parsing JSON: {}", e);
+            panic!("Error  parsing JSON: {}", e);
         }
     };
 
@@ -229,7 +216,7 @@ fn main() {
 
     // print!("key_mappings:{:?}", key_mappings);
 
-    let (samples, channels, sample_rate) = match load_audio_with_symphonia(&sound_file_path) {
+    let (samples, channels, sample_rate) = match load_audio_with_symphonia(&config.sound_file) {
         Ok((samples, channels, sample_rate)) => (samples, channels, sample_rate),
         Err(e) => {
             panic!("❌ Failed to load audio: {}", e);
@@ -591,7 +578,7 @@ fn callback(
             if keys.insert(key) {
                 // prima volta che questo tasto viene premuto
                 if let Some(name) = &event.name {
-                    println!("Tasto premuto: {} {:?}", name, key);
+                    println!("Key pressed: {} {:?}", name, key);
                 }
                 let key_str = format!("{:?}", key);
                 //let mut key_to_use = key_str.clone();
@@ -622,7 +609,7 @@ fn callback(
             let mut keys = pressed_keys.lock().unwrap();
             if keys.remove(&key) {
                 if let Some(name) = &event.name {
-                    println!("Tasto rilasciato: {}", name);
+                    println!("Key released: {}", name);
                 }
                 let key_str = format!("{:?}", key);
                 let default_key = "Backslash".to_string(); // la chiave di fallback
