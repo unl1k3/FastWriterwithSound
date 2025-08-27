@@ -31,7 +31,9 @@ KeyTapSound/
     └── eg-crystal-purple/
         ├── config.json
         └── sound.ogg
+go into keyTapSound and type ./keytap
+```
 
-# License
+#License
 
 This project is licensed under the MIT License.
