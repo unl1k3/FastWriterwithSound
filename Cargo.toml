@@ -3,6 +3,11 @@ name = "keylogger-sound"
 version = "0.1.0"
 edition = "2024"
 
+authors = ["Daniele Cavallini cavaldan2@gmail.com"]
+description = "Simulate mechanical keyboard sounds by assigning custom audio files to key presses."
+license = "MIT"
+
+
 [dependencies]
 anyhow = "1.0.99"
 cpal = "0.16.0"
