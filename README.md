@@ -21,7 +21,9 @@ You can run the program directly with Cargo:
     ```bash
     cargo run --release
 
-## Project Structure
+## Required File Layout
+
+```text
 KeyTapSound/
 ├── config.toml
 ├── keytap
@@ -29,7 +31,6 @@ KeyTapSound/
     └── eg-crystal-purple/
         ├── config.json
         └── sound.ogg
-
 # License
 
 This project is licensed under the MIT License.
