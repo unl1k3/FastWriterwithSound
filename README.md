@@ -34,6 +34,8 @@ KeyTapSound/
 go into keyTapSound and type ./keytap
 ```
 
+**Tested on:** macOS Sequoia 15.6.1 running on Apple M2
+
 #License
 
 This project is licensed under the MIT License.
