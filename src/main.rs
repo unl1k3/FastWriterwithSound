@@ -587,6 +587,7 @@ fn callback(
                 let lookup_key = if key_mappings.contains_key(&key_str) {
                     &key_str
                 } else {
+                    println!("***mapping fail");
                     &default_key
                 };
 
@@ -617,6 +618,7 @@ fn callback(
                 let lookup_key = if key_mappings.contains_key(&key_str) {
                     &key_str
                 } else {
+                    println!("***mapping fail");
                     &default_key
                 };
 
