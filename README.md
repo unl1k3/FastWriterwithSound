@@ -13,15 +13,10 @@ This application is a simplified version of [Mechvibes DX](https://github.com/ha
 2. **Clone the Repository**  
    Download the project source code using Git:  
    ```bash
-   git clone git@github.com:unl1k3/FastWriterwithSound.git
-   cd FastWriterwithSound
+   git clone git@github.com:unl1k3/KeyTapSound.git
+   cd KeyTapSound
 
-3. **Build the Project**
-   Compile the application using Cargo:
-   ```bash
-   cargo build --release
-
-4. **Run the Application**
+4. ** Compile & Run the Application**
 You can run the program directly with Cargo:
     ```bash
     cargo run --release
