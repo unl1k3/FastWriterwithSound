@@ -16,7 +16,7 @@ This application is a simplified version of [Mechvibes DX](https://github.com/ha
    git clone git@github.com:unl1k3/KeyTapSound.git
    cd KeyTapSound
 
-4. ** Compile & Run the Application**
+4. **Compile & Run the Application**
 You can run the program directly with Cargo:
     ```bash
     cargo run --release
@@ -31,6 +31,7 @@ KeyTapSound/
     └── eg-crystal-purple/
         ├── config.json
         └── sound.ogg
+
 # License
 
 This project is licensed under the MIT License.
